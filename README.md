@@ -21,6 +21,7 @@ brew tap sstraus/tap
 | Cask | Description | Install |
 |------|-------------|---------|
 | [TUICommander](https://github.com/sstraus/tuicommander) | Desktop terminal orchestrator for AI coding agents | `brew install --cask sstraus/tap/tuicommander` |
+| [MCPMacControl](https://github.com/sstraus/McpMacControl) | MCP server for AI-driven macOS control | `brew install --cask sstraus/tap/mcp-mac-control` |
 | [SettingsSentry](https://github.com/sstraus/SettingsSentry) | Archive and reinstate macOS application configurations | `brew install --cask sstraus/tap/settings-sentry` |
 
 ## Updating
@@ -29,5 +30,6 @@ brew tap sstraus/tap
 brew update
 brew upgrade sstraus/tap/mdkb
 brew upgrade --cask sstraus/tap/tuicommander
+brew upgrade --cask sstraus/tap/mcp-mac-control
 brew upgrade --cask sstraus/tap/settings-sentry
 ```

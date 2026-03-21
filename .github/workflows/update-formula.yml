@@ -1,0 +1,95 @@
+name: Update formula on release
+
+on:
+  repository_dispatch:
+    types: [release-published]
+
+jobs:
+  update:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Update formula or cask
+        env:
+          REPO: ${{ github.event.client_payload.repo }}
+          VERSION: ${{ github.event.client_payload.version }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          echo "Updating $REPO to $VERSION"
+
+          # Strip leading 'v' from version for formula
+          VER="${VERSION#v}"
+
+          case "$REPO" in
+            mdkb)
+              FORMULA="Formula/mdkb.rb"
+              # 4 assets: macos-arm64, macos-x64, linux-arm64, linux-x64
+              for asset in mdkb-macos-arm64 mdkb-macos-x64 mdkb-linux-arm64 mdkb-linux-x64; do
+                URL="https://github.com/sstraus/mdkb/releases/download/v${VER}/${asset}"
+                SHA=$(curl -sL "$URL" | shasum -a 256 | cut -d' ' -f1)
+                # Update sha256 on the line following the URL line for this asset
+                sed -i '' "/${asset}/{ n; s/sha256 \"[a-f0-9]*\"/sha256 \"${SHA}\"/; }" "$FORMULA"
+              done
+              # Update version
+              sed -i '' "s/^  version \".*\"/  version \"${VER}\"/" "$FORMULA"
+              # Update hardcoded version in URLs to use interpolation
+              sed -i '' "s|/releases/download/v[0-9.]*|/releases/download/v#{version}|g" "$FORMULA"
+              ;;
+
+            mdkb-extractor)
+              FORMULA="Formula/mdkb-extractor.rb"
+              URL="https://github.com/sstraus/mdkb-extractor/releases/download/v${VER}/mdkb-extractor"
+              SHA=$(curl -sL "$URL" | shasum -a 256 | cut -d' ' -f1)
+              sed -i '' "s/^  version \".*\"/  version \"${VER}\"/" "$FORMULA"
+              sed -i '' "s/^  sha256 \"[a-f0-9]*\"/  sha256 \"${SHA}\"/" "$FORMULA"
+              ;;
+
+            SettingsSentry)
+              FORMULA="Formula/settingssentry.rb"
+              for asset in SettingsSentry_arm64.zip SettingsSentry_x86_64.zip; do
+                URL="https://github.com/sstraus/SettingsSentry/releases/download/v${VER}/${asset}"
+                SHA=$(curl -sL "$URL" | shasum -a 256 | cut -d' ' -f1)
+                sed -i '' "/${asset}/{ n; s/sha256 \"[a-f0-9]*\"/sha256 \"${SHA}\"/; }" "$FORMULA"
+              done
+              sed -i '' "s/^  version \".*\"/  version \"${VER}\"/" "$FORMULA"
+              ;;
+
+            McpMacControl)
+              CASK="Casks/mcp-mac-control.rb"
+              URL="https://github.com/sstraus/McpMacControl/releases/download/v${VER}/MCPMacControl.app.zip"
+              SHA=$(curl -sL "$URL" | shasum -a 256 | cut -d' ' -f1)
+              sed -i '' "s/^  version \".*\"/  version \"${VER}\"/" "$CASK"
+              sed -i '' "s/^  sha256 \"[a-f0-9]*\"/  sha256 \"${SHA}\"/" "$CASK"
+              ;;
+
+            tuicommander)
+              CASK="Casks/tuicommander.rb"
+              URL="https://github.com/sstraus/tuicommander/releases/download/v${VER}/TUICommander_aarch64.app.tar.gz"
+              SHA=$(curl -sL "$URL" | shasum -a 256 | cut -d' ' -f1)
+              sed -i '' "s/^  version \".*\"/  version \"${VER}\"/" "$CASK"
+              sed -i '' "s/^  sha256 \"[a-f0-9]*\"/  sha256 \"${SHA}\"/" "$CASK"
+              ;;
+
+            *)
+              echo "Unknown repo: $REPO"
+              exit 1
+              ;;
+          esac
+
+          echo "Updated to version ${VER}"
+
+      - name: Commit and push
+        env:
+          REPO: ${{ github.event.client_payload.repo }}
+          VERSION: ${{ github.event.client_payload.version }}
+        run: |
+          VER="${VERSION#v}"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet && echo "No changes" && exit 0
+          git commit -m "bump ${REPO} to ${VER}"
+          git push

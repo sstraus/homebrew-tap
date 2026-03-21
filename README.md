@@ -15,6 +15,7 @@ brew tap sstraus/tap
 | Formula | Description | Install |
 |---------|-------------|---------|
 | [mdkb](https://github.com/sstraus/mdkb) | Local knowledge base with hybrid search for AI coding assistants | `brew install sstraus/tap/mdkb` |
+| [mdkb-extractor](https://github.com/sstraus/mdkb-extractor) | Extract text/metadata from PDFs, images, Office docs via macOS APIs | `brew install sstraus/tap/mdkb-extractor` |
 
 ### Casks (macOS apps)
 
@@ -29,6 +30,7 @@ brew tap sstraus/tap
 ```bash
 brew update
 brew upgrade sstraus/tap/mdkb
+brew upgrade sstraus/tap/mdkb-extractor
 brew upgrade --cask sstraus/tap/tuicommander
 brew upgrade --cask sstraus/tap/mcp-mac-control
 brew upgrade --cask sstraus/tap/settings-sentry

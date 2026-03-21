@@ -1,5 +1,8 @@
-cask "settingssentry" do
+class Settingssentry < Formula
+  desc "Securely archive and reinstate macOS application configurations"
+  homepage "https://github.com/sstraus/SettingsSentry"
   version "1.2.0"
+  license "MIT"
 
   if Hardware::CPU.arm?
     url "https://github.com/sstraus/SettingsSentry/releases/download/v#{version}/SettingsSentry_arm64.zip"
@@ -9,9 +12,12 @@ cask "settingssentry" do
     sha256 "1d4d0368518730eda668f1aad8643832ed24c017b27ca4807c7d169fcad3cb8e"
   end
 
-  name "SettingsSentry"
-  desc "Securely archive and reinstate macOS application configurations"
-  homepage "https://github.com/sstraus/SettingsSentry"
+  def install
+    bin.install "settingssentry"
+    pkgshare.install "configs"
+  end
 
-  app "SettingsSentry.app"
+  test do
+    system bin/"settingssentry", "--version"
+  end
 end

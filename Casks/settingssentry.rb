@@ -1,4 +1,4 @@
-cask "settings-sentry" do
+cask "settingssentry" do
   version "1.2.0"
 
   if Hardware::CPU.arm?

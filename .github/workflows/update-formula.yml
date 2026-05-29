@@ -42,6 +42,19 @@ jobs:
               sed -i '' "s|/releases/download/v[^/]*|/releases/download/v#{version}|g" "$FORMULA"
               ;;
 
+            embargo)
+              FORMULA="Formula/embargo.rb"
+              # 4 assets: macos-arm64, macos-x64, linux-arm64, linux-x64
+              for asset in embargo-macos-arm64 embargo-macos-x64 embargo-linux-arm64 embargo-linux-x64; do
+                URL="https://github.com/sstraus/embargo/releases/download/v${VER}/${asset}"
+                SHA=$(curl -sfL "$URL" | shasum -a 256 | cut -d' ' -f1)
+                # Update sha256 on the line following the URL line for this asset
+                sed -i '' "/${asset}/{ n; s/sha256 \"[a-f0-9]*\"/sha256 \"${SHA}\"/; }" "$FORMULA"
+              done
+              # Update version
+              sed -i '' "s/^  version \".*\"/  version \"${VER}\"/" "$FORMULA"
+              ;;
+
             mdkb-extractor)
               FORMULA="Formula/mdkb-extractor.rb"
               URL="https://github.com/sstraus/mdkb-extractor/releases/download/v${VER}/mdkb-extractor"

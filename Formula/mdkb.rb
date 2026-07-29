@@ -1,26 +1,26 @@
 class Mdkb < Formula
   desc "Local knowledge base with hybrid search for AI coding assistants"
   homepage "https://github.com/sstraus/mdkb"
-  version "3.7.8"
+  version "3.7.9"
   license "MIT"
 
   on_macos do
     if Hardware::CPU.arm?
       url "https://github.com/sstraus/mdkb/releases/download/v#{version}/mdkb-macos-arm64"
-      sha256 "dc86548ebeb50abb4a69226cfa21d72fcd5ace2852f7f8c84b820a3f623f7896"
+      sha256 "382e4da819066773df8bfdcee60bff101f38f60e9e55b8a679d9faf436fc9f59"
     else
       url "https://github.com/sstraus/mdkb/releases/download/v#{version}/mdkb-macos-x64"
-      sha256 "23bc4e5d521a16262f07aa5285c6308c93e00ff54233c293af0322a4155e4159"
+      sha256 "e4b5e7ce76b8006bf06883488de92ad1220fe2fdc034d9b0dffe987763883310"
     end
   end
 
   on_linux do
     if Hardware::CPU.arm?
       url "https://github.com/sstraus/mdkb/releases/download/v#{version}/mdkb-linux-arm64"
-      sha256 "78547749c61b3f718345da80be372239182fa786ab1238562d0b4357dfad48bf"
+      sha256 "41ba0424b040b7f21c674700ae5ae990a4eac2f1cb7d203c131415cbcf8c974b"
     else
       url "https://github.com/sstraus/mdkb/releases/download/v#{version}/mdkb-linux-x64"
-      sha256 "3ad0c763c1f69841c684af29546131596043faf4b5aca3f95a189c174706d404"
+      sha256 "a456d0a0d03580db74ac773c90b45a3febe6084c26eb81b884529ed59228793e"
     end
   end
 

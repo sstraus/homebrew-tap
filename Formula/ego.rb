@@ -1,28 +1,28 @@
 class Ego < Formula
   desc "Provider-agnostic coding agent harness"
   homepage "https://github.com/sstraus/ego"
-  version "0.4.1"
+  version "0.4.3"
   license "MIT"
 
   on_macos do
     on_arm do
       url "https://github.com/sstraus/ego/releases/download/v#{version}/ego-aarch64-apple-darwin.tar.gz"
-      sha256 "a8f817e2da1e8d43c7e92aa85c1263070485c485e89a0e6cb1fbcb4f31e8edb1"
+      sha256 "8b6b84e0f5fc8b9ae05733104ae902edbcb736bfdf7aff2ce377c2982d0f408b"
     end
     on_intel do
       url "https://github.com/sstraus/ego/releases/download/v#{version}/ego-x86_64-apple-darwin.tar.gz"
-      sha256 "24c42f7b5e64f8923b23d94b9673cef04800617cb1338f5a088c54bb9a2e896e"
+      sha256 "15143b93402c1f5999ffd136c49db796fe14d879e4f519b1ea3f719df0da77dd"
     end
   end
 
   on_linux do
     on_arm do
       url "https://github.com/sstraus/ego/releases/download/v#{version}/ego-aarch64-unknown-linux-gnu.tar.gz"
-      sha256 "f2146e12752be9663570929480087d4d2102003b64bdf4765ed2c9b5acfab9cb"
+      sha256 "3577083c2b2c2866558d1c2b9fc2618b47afa92448764360ce9e147a394852c0"
     end
     on_intel do
       url "https://github.com/sstraus/ego/releases/download/v#{version}/ego-x86_64-unknown-linux-gnu.tar.gz"
-      sha256 "3a20cd4d224ed54e4aa037851efceddba7bb4fdecfc953e793295bf509f269a9"
+      sha256 "a0ae0e76781fe613956b0384529bfbc68486f3f0f649f9dc0840cb21ed541708"
     end
   end
 

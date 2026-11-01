@@ -1,8 +1,8 @@
 cask "tuicommander" do
-  version "1.2.8-nightly"
+  version "2.0.0"
 
   url "https://github.com/sstraus/tuicommander/releases/download/v#{version}/TUICommander_aarch64.app.tar.gz"
-  sha256 "24c4dfc4c6aca9b8e211754e9def2ce55e3dc6a99d837c1574cb3ac08d9ff742"
+  sha256 "d54d8c606e44167f45904ade16115256fbc952dd99a123a181dc068c1a4c36f0"
 
   name "TUICommander"
   desc "Desktop terminal orchestrator for running AI coding agents in parallel"

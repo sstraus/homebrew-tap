@@ -4,7 +4,6 @@ class MdkbExtractor < Formula
   version "0.1.0"
   license "MIT"
 
-  depends_on :macos
   depends_on arch: :arm64
   depends_on macos: :sequoia
 

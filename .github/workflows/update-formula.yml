@@ -74,7 +74,8 @@ jobs:
               FORMULA="Formula/mdkb-extractor.rb"
               URL="https://github.com/sstraus/mdkb-extractor/releases/download/v${VER}/mdkb-extractor"
               SHA=$(curl -sfL "$URL" | shasum -a 256 | cut -d' ' -f1)
-              sed -i '' "s/^  version \".*\"/  version \"${VER}\"/" "$FORMULA"
+              # The URL carries the version; Homebrew parses it, so there is no version line.
+              sed -i '' "s|/releases/download/v[^/]*/|/releases/download/v${VER}/|" "$FORMULA"
               sed -i '' "s/^  sha256 \"[a-f0-9]*\"/  sha256 \"${SHA}\"/" "$FORMULA"
               ;;
 
@@ -111,6 +112,11 @@ jobs:
           esac
 
           echo "Updated to version ${VER}"
+
+      - name: Check that Homebrew loads the tap
+        run: |
+          brew update --quiet
+          .github/scripts/check-tap.sh
 
       - name: Commit and push
         env:

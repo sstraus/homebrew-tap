@@ -1,0 +1,19 @@
+name: Check tap
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Check that Homebrew loads the tap
+        run: |
+          brew update --quiet
+          .github/scripts/check-tap.sh
